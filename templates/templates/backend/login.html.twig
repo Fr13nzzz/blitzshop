@@ -5,15 +5,21 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('shop_backend_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+    <div class="col">
+        <form action="{{ path('shop_backend_login') }}" method="post">
+            <div class="form-floating mb-4">
+                <input class="form-control" type="text" id="username" name="_username" placeholder="Username" value="{{ last_username }}"/>
+                <label for="username">Email</label>
+            </div>
+            <div class="form-floating mb-4">
+                <input class="form-control" type="password" id="password" name="_password" placeholder="Username"/>
+                <label for="password">Password</label>
+            </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password"/>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <input type="hidden" name="_target_path" value="{{ path('backend_home') }}" />
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <input type="hidden" name="_target_path" value="{{ path('backend_home') }}" />
-        <button type="submit">login</button>
-    </form>
+            <button class="btn btn-primary btn-block mb-4" type="submit">login</button>
+        </form>
+    </div>
 {% endblock %}
