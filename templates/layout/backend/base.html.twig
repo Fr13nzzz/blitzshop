@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Blitz Backend{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<header>
+    <div class="header">
+        <h1>Blitz Shop Backend</h1>
+    </div>
+</header>
+<div id="module_navigation-container">
+    <nav id="module_navigation-navigation">
+        <ul id="module_navigation-list">
+            <li><a class="module_navigation-link">Productmanagement</a></li>
+            <li><a class="module_navigation-link">Product Statistics</a></li>
+            <li><a class="module_navigation-link">Fileserver</a></li>
+            <li><a class="module_navigation-link">Payment methods</a></li>
+            <li><a class="module_navigation-link">Orders</a></li>
+            <li><a class="module_navigation-link">Settings</a></li>
+        </ul>
+    </nav>
+</div>
+<main>
+    {% block body %}{% endblock %}
+</main>
+</body>
+<footer>
+</footer>
+</html>
