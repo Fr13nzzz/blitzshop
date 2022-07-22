@@ -14,14 +14,13 @@ security:
                 property: email
     firewalls:
         backend:
-            pattern: ^/admin$
+            pattern: /admin/
             form_login:
                 provider: backend_user_provider
                 login_path: shop_backend_login
                 check_path: shop_backend_login
                 enable_csrf: true
         frontend:
-            pattern: ^/
             form_login:
                 provider: frontend_user_provider
                 login_path: shop_backend_login
