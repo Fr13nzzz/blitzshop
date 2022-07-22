@@ -19,6 +19,7 @@
         <h1>Blitz Shop Backend</h1>
     </div>
 </header>
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 <div id="module_navigation-container">
     <nav id="module_navigation-navigation">
         <ul id="module_navigation-list">
@@ -31,6 +32,7 @@
         </ul>
     </nav>
 </div>
+{% endif %}
 <main>
     {% block body %}{% endblock %}
 </main>
