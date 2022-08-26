@@ -1,0 +1,4 @@
+.add-product:hover {
+    cursor: pointer;
+    border: 1px solid lightgray;
+}

@@ -9,25 +9,48 @@ class Navigation {
     #initListener() {
         const that = this;
         const navigation = this.navigationContainer.querySelector('.sidenav');
-        let burger = this.navigationContainer.querySelector('#burger');
-        let closeButton = this.navigationContainer.querySelector('#close-navigation');
+        const openButton = this.navigationContainer.querySelector('#burgerbtn');
+        const closeButton = this.navigationContainer.querySelector('#close-navigation');
+        const navigationItems = this.navigationContainer.querySelectorAll('li a');
 
-        burger.addEventListener('click', function() {
-            that.open(navigation);
+        this.#setActiveLink(navigationItems);
+
+        openButton.addEventListener('click', function() {
+            that.open(navigation, openButton, closeButton, navigationItems);
         });
 
         closeButton.addEventListener('click', function() {
-            that.close(navigation);
+            that.close(navigation, openButton, closeButton, navigationItems);
         });
     }
 
-    open(navigation) {
-        console.log(navigation);
-        navigation.style.display = 'block';
+    #setActiveLink(navigationLinks) {
+        let currentModule = document.querySelector('[data-module]');
+        navigationLinks.forEach(function (link, currenModule) {
+            if (currentModule.dataset.module === link.dataset.moduleLink) {
+                link.classList.add('active');
+            }
+        });
     }
 
-    close(navigation) {
-        navigation.style.display = 'none';
+    open(navigation, openbtn, closebtn, navigationItems) {
+        openbtn.style.display = 'none';
+        closebtn.style.display = 'block';
+        navigation.style.width = '20%';
+
+        navigationItems.forEach(function (item) {
+            item.querySelector('span').style.display = '';
+        });
+    }
+
+    close(navigation, openbtn, closebtn, navigationItems) {
+        openbtn.style.display = 'block';
+        closebtn.style.display = 'none';
+        navigation.style.width = '5%';
+
+        navigationItems.forEach(function (item) {
+            item.querySelector('span').style.display = 'none';
+        });
     }
 }
 
