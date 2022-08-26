@@ -10,3 +10,6 @@ stop:
 urls:
 	echo Reachable from
 	echo http://127.0.0.1:8000
+
+cache-clear:
+	docker exec apache php bin/console cache:clear

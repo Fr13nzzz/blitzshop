@@ -27,7 +27,7 @@ class BackendController extends AbstractController
     }
 
     /**
-     * @Route("/home", name="backend_home")
+     * @Route("", name="backend_home")
      */
     public function homeAction(): Response
     {
