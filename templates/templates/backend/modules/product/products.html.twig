@@ -1,0 +1,62 @@
+{% extends 'layout/backend/base.html.twig' %}
+
+{% block body %}
+    <div class="main-section pt-5" data-module="productmanagement">
+        <h3 class="mb-3">Your active products: {{ productAmount }}</h3>
+        <div class="row">
+            {% for product in products.active %}
+                <div class="col-4 pb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Name: {{ product.name }}</h4>
+                            <h5 class="card-title">Price: {{ product.description }}</h5>
+                            <p class="card-text">Description: {{ product.description }}</p>
+                            <a href="#" class="btn btn-primary">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="col-4 pb-3 ">
+                <a href="{{ path('create_product') }}">
+                    <div class="card">
+                        <div class="card-body add-product">
+                            +
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <h3 class="mb-3">Your hidden products</h3>
+        <div class="row">
+            {% for product in products.hidden %}
+                <div class="col-4 pb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Name: {{ product.name }}</h4>
+                            <h5 class="card-title">Price: {{ product.description }}</h5>
+                            <p class="card-text">Description: {{ product.description }}</p>
+                            <a href="#" class="btn btn-primary">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <h3 class="mb-3">Your deleted products</h3>
+        <div class="row">
+            {% for product in products.deleted %}
+                <div class="col-4 pb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Name: {{ product.name }}</h4>
+                            <h5 class="card-title">Price: {{ product.description }}</h5>
+                            <p class="card-text">Description: {{ product.description }}</p>
+                            <a href="#" class="btn btn-primary">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

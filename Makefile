@@ -13,3 +13,10 @@ urls:
 
 cache-clear:
 	docker exec apache php bin/console cache:clear
+
+cache-warmup:
+	docker exec apache php bin/console cache:warmup
+
+migrate:
+	docker exec apache php bin/console make:migration
+	docker exec apache php bin/console doctrine:migrations:migrate

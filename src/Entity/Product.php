@@ -11,16 +11,22 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $description;
+    private string $description;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private $price;
+    private string $price;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private int $hidden;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private int $deleted;
 
     public function getId(): ?int
     {
@@ -60,6 +66,28 @@ class Product
     {
         $this->price = $price;
 
+        return $this;
+    }
+
+    public function getHidden(): int
+    {
+        return $this->hidden;
+    }
+
+    public function setHidden(int $hidden): self
+    {
+        $this->hidden = $hidden;
+        return $this;
+    }
+
+    public function getDeleted(): int
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(int $deleted): self
+    {
+        $this->deleted = $deleted;
         return $this;
     }
 }

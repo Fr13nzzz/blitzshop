@@ -10,6 +10,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-symfony}
     volumes:
       - db-data:/var/lib/postgresql/data:rw
+    ports:
+      - '6969:5432'
 
   web:
     container_name: apache
@@ -17,14 +19,19 @@ services:
       context: .
       dockerfile: ./.docker/apache/Dockerfile
     environment:
-      - PHP_SOCKET=symfony_php:9000
-      - WEB_PHP_SOCKET=symfony_php:9000
+      VIRTUAL_HOST: ${HOST}
+      PHP_SOCKET: symfony_php:9000
+      WEB_PHP_SOCKET: symfony_php:9000
     volumes:
       - .:/var/www
     ports:
       - '8000:80'
     depends_on:
       - database
+    networks:
+      default:
+        aliases:
+          - ${HOST}
 
 volumes:
   db-data:
