@@ -12,52 +12,65 @@
     <link href="{{ asset('assets/css/product.css') }}" rel="stylesheet"/>
 </head>
 <body>
-{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-    <nav id="sidenav-container">
-        <div class="sidenav">
-            <a id="burgerbtn" class="burgerbtn">&#9776;</a>
-            <a id="close-navigation" class="closebtn">&times;</a>
-            <ul id="nav navbar-nav">
-                <li>
-                    <a href="{{ path('list_backend_products') }}" class="module_navigation-link" data-module-link="productmanagement">
-                        {{ source('images/icons/backend/navigation/productmanagement.svg') }}
-                        <span>Productmanagement</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="module_navigation-link" data-module-link="statistics">
-                        {{ source('images/icons/backend/navigation/statistics.svg') }}
-                        <span>Product Statistics</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="module_navigation-link" data-module-link="fileserver">
-                        {{ source('images/icons/backend/navigation/fileserver.svg') }}
-                        <span>Fileserver</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="module_navigation-link" data-module-link="payment">
-                        {{ source('images/icons/backend/navigation/payment.svg') }}
-                        <span>Payment methods</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="module_navigation-link" data-module-link="order">
-                        {{ source('images/icons/backend/navigation/order.svg') }}
-                        <span>Orders</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="module_navigation-link" data-module-link="settings">
-                        {{ source('images/icons/backend/navigation/settings.svg') }}
-                        <span>Settings</span>
-                    </a>
-                </li>
-            </ul>
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    <header>
+        <div class="row w-100 topnavigation-container">
+            <div class="col-4"></div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-6"></div>
+                    <div class="col-6">
+                        <span>logout</span>
+                    </div>
+                </div>
+            </div>
         </div>
-    </nav>
-{% endif %}
+        <nav id="sidenav-container">
+            <div class="sidenav">
+                <a id="burgerbtn" class="burgerbtn">&#9776;</a>
+                <a id="close-navigation" class="closebtn">&times;</a>
+                <ul id="nav navbar-nav">
+                    <li>
+                        <a href="{{ path('list_backend_products') }}" class="module_navigation-link" data-module-link="productmanagement">
+                            {{ source('images/icons/backend/navigation/productmanagement.svg') }}
+                            <span>Productmanagement</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="module_navigation-link" data-module-link="statistics">
+                            {{ source('images/icons/backend/navigation/statistics.svg') }}
+                            <span>Product Statistics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="module_navigation-link" data-module-link="fileserver">
+                            {{ source('images/icons/backend/navigation/fileserver.svg') }}
+                            <span>Fileserver</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="module_navigation-link" data-module-link="payment">
+                            {{ source('images/icons/backend/navigation/payment.svg') }}
+                            <span>Payment methods</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="module_navigation-link" data-module-link="order">
+                            {{ source('images/icons/backend/navigation/order.svg') }}
+                            <span>Orders</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="module_navigation-link" data-module-link="settings">
+                            {{ source('images/icons/backend/navigation/settings.svg') }}
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    {% endif %}
+</header>
 <main>
     <div class="container text-center">
         <div class="row">
