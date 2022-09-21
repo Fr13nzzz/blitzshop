@@ -13,3 +13,13 @@ backend_logout:
 frontend_logout:
     path: /logout
     methods: GET
+
+home_page:
+    path: /
+    controller:    Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+    defaults:
+        template: templates/frontend/index.html.twig
+        statusCode: 200
+        maxAge: 86400
+        sharedAge: 86400
+        private: true

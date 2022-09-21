@@ -5,6 +5,8 @@ module.exports = {
     mode: 'development',
     context: path.resolve(__dirname, 'Assets'),
     entry: {
+        frontend: ['./css/frontend/main.css'],
+        list: ['./javascript/frontend/three/list.js'],
         default: ['./css/default.css'],
         navigation: ['./javascript/navigation.js', './css/navigation.css'],
         product: ['./css/product.css'],
