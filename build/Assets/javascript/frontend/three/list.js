@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls';
-import { CSG } from 'three-csg-ts';
+import {CSG} from 'three-csg-ts';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -15,7 +15,7 @@ controls.maxPolarAngle = Math.PI/2;
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize( window.innerWidth, window.innerHeight );
-camera.position.setZ(300);
+camera.position.setZ(400);
 camera.position.setY(6);
 
 function initLight() {
@@ -39,6 +39,34 @@ function initLight() {
 
     scene.add(s1);
     scene.add(s2);
+}
+
+function drawEntryDoor() {
+    const leftDoor = new THREE.Mesh(
+        new THREE.PlaneGeometry(100, 100, 1, 1),
+        new THREE.MeshStandardMaterial({
+            opacity: 0.7,
+            transparent: true,
+            color: 0x606060
+        })
+    );
+
+    const rightDoor = new THREE.Mesh(
+        new THREE.PlaneGeometry(100, 100, 1, 1),
+        new THREE.MeshStandardMaterial({
+            opacity: 0.7,
+            transparent: true,
+            color: 0x606060
+        })
+    );
+
+    leftDoor.position.z = 350;
+    rightDoor.position.z = 350;
+    leftDoor.position.x = 50;
+    rightDoor.position.x = -50;
+
+    scene.add(leftDoor);
+    scene.add(rightDoor);
 }
 
 function drawGround() {
@@ -103,7 +131,7 @@ function initShelf() {
 }
 
 function moveCamera(event) {
-    let movement = 0.1 * Math.sign(event.deltaY);
+    let movement = 0.5 * Math.sign(event.deltaY);
     camera.position.z += movement;
 }
 
@@ -118,6 +146,7 @@ function animate() {
 }
 
 drawGround();
+drawEntryDoor();
 initLight();
 initShelf();
 window.onload = animate;
