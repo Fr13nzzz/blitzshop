@@ -9,28 +9,46 @@ const renderer = new THREE.WebGLRenderer({
 });
 
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableZoom = false;
+controls.minPolarAngle = 0;
+controls.maxPolarAngle = Math.PI/2;
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize( window.innerWidth, window.innerHeight );
-camera.position.setZ(25);
+camera.position.setZ(300);
 camera.position.setY(6);
 
 function initLight() {
-    const spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set( 100, 200, 0);
-    spotLight.castShadow = true;
-    spotLight.shadow.mapSize.width = 1024;
-    spotLight.shadow.mapSize.height = 1024;
-    spotLight.shadow.camera.near = 500;
-    spotLight.shadow.camera.far = 4000;
-    spotLight.shadow.camera.fov = 30;
-    scene.add(spotLight);
+    const s1 = new THREE.SpotLight(0xffffff);
+    s1.position.set( 500, 200, 350);
+    s1.castShadow = true;
+    s1.shadow.mapSize.width = 1024;
+    s1.shadow.mapSize.height = 1024;
+    s1.shadow.camera.near = 500;
+    s1.shadow.camera.far = 4000;
+    s1.shadow.camera.fov = 30;
+
+    const s2 = new THREE.SpotLight(0xffffff);
+    s2.position.set( -500, 200, 350);
+    s2.castShadow = true;
+    s2.shadow.mapSize.width = 1024;
+    s2.shadow.mapSize.height = 1024;
+    s2.shadow.camera.near = 500;
+    s2.shadow.camera.far = 4000;
+    s2.shadow.camera.fov = 30;
+
+    scene.add(s1);
+    scene.add(s2);
 }
 
 function drawGround() {
-    const groundTexture = new THREE.TextureLoader().load('./assets/floor.jpeg');
+    const groundTexture = new THREE.TextureLoader().load('./assets/floor.jpg');
+    groundTexture.wrapS = THREE.RepeatWrapping;
+    groundTexture.wrapT = THREE.RepeatWrapping;
+    groundTexture.repeat.set(120, 120);
+
     const ground = new THREE.Mesh(
-        new THREE.PlaneGeometry( 100, 75, 1, 1),
+        new THREE.PlaneGeometry( 1000, 750, 1, 1),
         new THREE.MeshStandardMaterial( {map: groundTexture})
     );
     ground.rotation.x = -1.5;
@@ -83,6 +101,13 @@ function initShelf() {
         }
     }
 }
+
+function moveCamera(event) {
+    let movement = 0.1 * Math.sign(event.deltaY);
+    camera.position.z += movement;
+}
+
+window.addEventListener('wheel', event => moveCamera(event));
 
 function animate() {
     requestAnimationFrame(animate);
