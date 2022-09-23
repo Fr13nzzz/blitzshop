@@ -1,152 +1,114 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls';
-import {CSG} from 'three-csg-ts';
+import StartSequence from './Sequences/start';
+import ShelfSequence from './Sequences/shelfSequence';
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({
-    canvas: document.getElementById('background'),
-});
+class listView {
+    scene;
+    camera;
+    renderer;
 
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableZoom = false;
-controls.minPolarAngle = 0;
-controls.maxPolarAngle = Math.PI/2;
+    controls;
 
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize( window.innerWidth, window.innerHeight );
-camera.position.setZ(400);
-camera.position.setY(6);
+    #start;
+    #shelves;
 
-function initLight() {
-    const s1 = new THREE.SpotLight(0xffffff);
-    s1.position.set( 500, 200, 350);
-    s1.castShadow = true;
-    s1.shadow.mapSize.width = 1024;
-    s1.shadow.mapSize.height = 1024;
-    s1.shadow.camera.near = 500;
-    s1.shadow.camera.far = 4000;
-    s1.shadow.camera.fov = 30;
+    setup() {
+        //init scene camera and renderer
+        this.scene = new THREE.Scene();
+        this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera.position.setZ(400);
+        this.camera.position.setY(6);
+        this.renderer = new THREE.WebGLRenderer({
+            canvas: document.getElementById('background'),
+        });
 
-    const s2 = new THREE.SpotLight(0xffffff);
-    s2.position.set( -500, 200, 350);
-    s2.castShadow = true;
-    s2.shadow.mapSize.width = 1024;
-    s2.shadow.mapSize.height = 1024;
-    s2.shadow.camera.near = 500;
-    s2.shadow.camera.far = 4000;
-    s2.shadow.camera.fov = 30;
+        this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.camera.position.setY(6);
 
-    scene.add(s1);
-    scene.add(s2);
-}
+        //init OrbitControl
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+        this.controls.enableZoom = false;
+        this.controls.minPolarAngle = 0;
+        this.controls.maxPolarAngle = Math.PI / 2;
 
-function drawEntryDoor() {
-    const leftDoor = new THREE.Mesh(
-        new THREE.PlaneGeometry(100, 100, 1, 1),
-        new THREE.MeshStandardMaterial({
-            opacity: 0.7,
-            transparent: true,
-            color: 0x606060
-        })
-    );
+        //init lights
+        let s1 = new THREE.SpotLight(0xffffff);
+        s1.position.set(500, 200, 350);
+        s1.castShadow = true;
+        s1.shadow.mapSize.width = 1024;
+        s1.shadow.mapSize.height = 1024;
+        s1.shadow.camera.near = 500;
+        s1.shadow.camera.far = 4000;
+        s1.shadow.camera.fov = 30;
 
-    const rightDoor = new THREE.Mesh(
-        new THREE.PlaneGeometry(100, 100, 1, 1),
-        new THREE.MeshStandardMaterial({
-            opacity: 0.7,
-            transparent: true,
-            color: 0x606060
-        })
-    );
+        let s2 = new THREE.SpotLight(0xffffff);
+        s2.position.set(-500, 200, 350);
+        s2.castShadow = true;
+        s2.shadow.mapSize.width = 1024;
+        s2.shadow.mapSize.height = 1024;
+        s2.shadow.camera.near = 500;
+        s2.shadow.camera.far = 4000;
+        s2.shadow.camera.fov = 30;
 
-    leftDoor.position.z = 350;
-    rightDoor.position.z = 350;
-    leftDoor.position.x = 50;
-    rightDoor.position.x = -50;
-
-    scene.add(leftDoor);
-    scene.add(rightDoor);
-}
-
-function drawGround() {
-    const groundTexture = new THREE.TextureLoader().load('./assets/floor.jpg');
-    groundTexture.wrapS = THREE.RepeatWrapping;
-    groundTexture.wrapT = THREE.RepeatWrapping;
-    groundTexture.repeat.set(120, 120);
-
-    const ground = new THREE.Mesh(
-        new THREE.PlaneGeometry( 1000, 750, 1, 1),
-        new THREE.MeshStandardMaterial( {map: groundTexture})
-    );
-    ground.rotation.x = -1.5;
-    scene.add(ground);
-}
-
-function initShelf() {
-    const caseSize = 4;
-    const innerCaseSize = 3.5;
-    const groundTexture = new THREE.TextureLoader().load('./assets/wood.jpeg');
-
-    function createShelfCase() {
-        const box = new THREE.Mesh(
-            new THREE.BoxGeometry(caseSize, caseSize, caseSize),
+        //init floor
+        let groundTexture = new THREE.TextureLoader().load('./assets/floor.jpg');
+        groundTexture.wrapS = THREE.RepeatWrapping;
+        groundTexture.wrapT = THREE.RepeatWrapping;
+        groundTexture.repeat.set(120, 120);
+        let ground = new THREE.Mesh(
+            new THREE.PlaneGeometry(1000, 750, 1, 1),
             new THREE.MeshStandardMaterial({map: groundTexture})
         );
-        const negativeBox = new THREE.Mesh(
-            new THREE.BoxGeometry(innerCaseSize, innerCaseSize, caseSize),
-            new THREE.MeshStandardMaterial({map: groundTexture})
-        );
+        ground.rotation.x = -1.5;
 
-        box.updateMatrix();
-        negativeBox.updateMatrix();
-        return CSG.subtract(box, negativeBox);
+        //add all to scene
+        this.scene.add(s1);
+        this.scene.add(s2);
+        this.scene.add(ground);
+
+        this.addEventListeners();
+
+        this.#start = new StartSequence({
+            scene: this.scene,
+            camera: this.camera
+        });
+
+        this.#shelves = new ShelfSequence(3, {
+            scene: this.scene,
+            camera: this.camera,
+            xStart: 0,
+            yStart: 2,
+            zStart: 300,
+        });
     }
 
-    for (let i = 0; i < 4; i++) {
-        for (let ii = 0; ii < 4; ii++) {
-            let shelfCase = createShelfCase();
+    addEventListeners() {
+        const that = this;
 
-            let xPosition = ii * caseSize;
-            let yPosition = (i * caseSize) + (caseSize / 2);
+        window.addEventListener('keydown', function (event) {
+            if (event.keyCode !== 13) return;
+            that.#start.startSequence();
+        });
 
-            shelfCase.position.setX(xPosition);
-            shelfCase.position.setY(yPosition);
+        window.addEventListener('wheel', function (event) {
+            let movement = 0.5 * Math.sign(event.deltaY);
+            that.camera.position.z += movement;
+        });
+    }
 
-            const spotLight = new THREE.SpotLight(0x1F0353, 12, caseSize + 2);
-            spotLight.position.set(xPosition + (caseSize / 2), yPosition + (caseSize / 2), 0);
-
-            spotLight.castShadow = true;
-
-            spotLight.shadow.mapSize.width = caseSize;
-            spotLight.shadow.mapSize.height = caseSize;
-
-            spotLight.shadow.camera.near = 0.1;
-            spotLight.shadow.camera.far = 4000;
-
-            scene.add(spotLight);
-            scene.add(shelfCase);
-        }
+    animate() {
+        requestAnimationFrame(() => this.animate());
+        this.controls.update();
+        this.#start.update();
+        this.#shelves.update();
+        this.renderer.render(this.scene, this.camera);
     }
 }
 
-function moveCamera(event) {
-    let movement = 0.5 * Math.sign(event.deltaY);
-    camera.position.z += movement;
+window.onload = function () {
+    let view = new listView();
+    view.setup();
+    view.animate();
 }
-
-window.addEventListener('wheel', event => moveCamera(event));
-
-function animate() {
-    requestAnimationFrame(animate);
-
-    controls.update();
-
-    renderer.render(scene,camera);
-}
-
-drawGround();
-drawEntryDoor();
-initLight();
-initShelf();
-window.onload = animate;

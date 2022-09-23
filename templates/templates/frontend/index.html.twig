@@ -1,6 +1,11 @@
 {% extends 'layout/frontend/base.html.twig' %}
 
 {% block body %}
+    <div id="greeting--welcome">
+        <h1>Welcome to Blitzshop</h1>
+        <h2>Press Enter to start</h2>
+        <h3>Use the mousewheel to move</h3>
+    </div>
     <canvas id="background"></canvas>
     <script src="{{ asset('assets/javascript/list.js') }}"></script>
 {% endblock %}
